@@ -1,0 +1,45 @@
+@extends('layouts.app')
+
+@section('content')
+<div class="container">
+    <h1>Chỉnh sửa thuốc</h1>
+
+    @if ($errors->any())
+        <div class="alert alert-danger">
+            <ul>
+                @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                @endforeach
+            </ul>
+        </div>
+    @endif
+
+    <form action="{{ route('medicines.update', $medicine) }}" method="POST">
+        @csrf
+        @method('PUT')
+
+        <div class="mb-3">
+            <label for="name" class="form-label">Tên thuốc</label>
+            <input type="text" name="name" id="name" class="form-control" value="{{ $medicine->name }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="manufacturer" class="form-label">Hãng sản xuất</label>
+            <input type="text" name="manufacturer" id="manufacturer" class="form-control" value="{{ $medicine->manufacturer }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="price" class="form-label">Giá</label>
+            <input type="number" name="price" id="price" class="form-control" value="{{ $medicine->price }}">
+        </div>
+
+        <div class="mb-3">
+            <label for="quantity" class="form-label">Số lượng</label>
+            <input type="number" name="quantity" id="quantity" class="form-control" value="{{ $medicine->quantity }}">
+        </div>
+
+        <button type="submit" class="btn btn-success">Cập nhật</button>
+        <a href="{{ route('medicines.index') }}" class="btn btn-secondary">Hủy</a>
+    </form>
+</div>
+@endsection
