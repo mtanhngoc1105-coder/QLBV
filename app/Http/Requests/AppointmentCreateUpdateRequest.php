@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class AppointmentCreateUpdateRequest extends FormRequest
 {
@@ -21,5 +23,13 @@ class AppointmentCreateUpdateRequest extends FormRequest
             'status'     => 'nullable|in:pending,completed,canceled',
             'note'       => 'nullable|string|max:255',
         ];
+    }
+
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => false,
+            'errors' => $validator->errors(),
+        ], 422));
     }
 }

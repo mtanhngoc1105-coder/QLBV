@@ -3,6 +3,8 @@
 namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Contracts\Validation\Validator;
+use Illuminate\Http\Exceptions\HttpResponseException;
 
 class DoctorCreateUpdateRequest extends FormRequest
 {
@@ -21,5 +23,14 @@ class DoctorCreateUpdateRequest extends FormRequest
             'phone'         => 'nullable|string|max:20',
             'email'         => 'nullable|email|max:100',
         ];
+    }
+
+   
+    protected function failedValidation(Validator $validator)
+    {
+        throw new HttpResponseException(response()->json([
+            'status' => false,
+            'errors' => $validator->errors()
+        ], 422));
     }
 }
