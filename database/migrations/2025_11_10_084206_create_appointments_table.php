@@ -10,20 +10,26 @@ return new class extends Migration
     {
         Schema::create('appointments', function (Blueprint $table) {
             $table->id();
+
+            // Foreign key patient
             $table->foreignId('patient_id')
                   ->constrained('patients')
                   ->onDelete('cascade');
 
+            // Foreign key doctor
             $table->foreignId('doctor_id')
                   ->constrained('doctors')
                   ->onDelete('cascade');
 
+            // Ngày và giờ khám
             $table->date('date');
             $table->time('time');
 
-            $table->enum('status', ['pending', 'completed', 'canceled'])
+            // Status: mở rộng tất cả trạng thái cần thiết
+            $table->enum('status', ['pending', 'accepted', 'rejected', 'completed', 'canceled'])
                   ->default('pending');
 
+            // Ghi chú
             $table->string('note', 255)->nullable();
 
             $table->timestamps();
